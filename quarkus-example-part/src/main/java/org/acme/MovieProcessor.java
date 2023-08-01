@@ -1,4 +1,4 @@
-package org.acme;
+/*package org.acme;
 
 
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -9,12 +9,21 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class MovieProcessor {
 
-    private static final double CONVERSION_RATE = 0.88;
+    @Incoming("movies-in")
+    public void consume(String message) {
+        System.out.println("Received message: " + message);
 
-    @Incoming("movie")
+    }
     @Outgoing("movie-out")
-    public String process(String title) {
-        return title;
+    public String produce() {
+        String message = "Hello from MovieProcessor";
+        System.out.println("Sending message: " + message);
+        return message;
     }
 
-}
+    // @Incoming("movies-in")
+    //@Outgoing("movies-out")
+    // public String process(String title) {
+    //     return title;
+    // }
+}*/
