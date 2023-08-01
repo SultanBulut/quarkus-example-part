@@ -21,9 +21,9 @@ public class MovieController {
     }
 
     @GET
-    @Path("/{id}")
-    public Response getMovieById(@PathParam("id") Long id){
-        Movie movie = movieService.getMovieById(id);
+    @Path("/{title}")
+    public Response getMovieByTitle(@PathParam("title") String title){
+        Movie movie = movieService.getMovieByTitle(title);
         if(movie!=null){
             return Response.ok(movie).build();
         }else{
@@ -41,9 +41,10 @@ public class MovieController {
     }
 
     @PUT
-    public Response updateMovie(Movie movie){
-        movieService.updateMovie(movie);
-        return Response.ok(movie).build();
+    @Path("/{title}")
+    public Response updateMovie(@PathParam("title") String title, MovieDTO movieDto){
+        movieService.updateMovie(title,movieDto);
+        return Response.ok(movieDto).build();
     }
 
     @DELETE

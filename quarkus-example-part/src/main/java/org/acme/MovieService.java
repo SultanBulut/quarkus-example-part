@@ -20,15 +20,15 @@ public class MovieService {
 
 
     @Transactional
-    public Movie getMovieById(Long id) {
-        return movieRepository.findById(id);
+    public Movie getMovieByTitle(String title) {
+        return Movie.findMovieByTitle(title);
     }
 
     @Transactional
-    public void updateMovie(Movie movie) {
-        Movie movieFromDatabase = Movie.findMovieByTitle(movie.getTitle());
-        movieFromDatabase.setDirector(movie.getDirector());
-        movieFromDatabase.setReleaseYear(movie.getReleaseYear());
+    public void updateMovie(String title,MovieDTO movieDto) {
+        Movie movieFromDatabase = Movie.findMovieByTitle(title);
+        movieFromDatabase.setDirector(movieDto.getDirector());
+        movieFromDatabase.setReleaseYear(movieDto.getReleaseYear());
     }
 
     @Transactional
