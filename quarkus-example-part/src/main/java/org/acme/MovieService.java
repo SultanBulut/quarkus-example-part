@@ -10,12 +10,16 @@ public class MovieService {
 
     @Inject
     MovieRepository movieRepository;
+    @Inject
+    MovieProducer movieProducer;
 
     @Transactional
     public boolean createMovie(MovieDTO movieDto) {
         Movie movie = new Movie(movieDto.getTitle(), movieDto.getDirector(), movieDto.getReleaseYear());
         movieRepository.persist(movie);
-        return movie.isPersistent();
+        boolean ispersist = movieRepository.isPersistent(movie);;
+        movieProducer.sendMovieToKafka(movie);
+        return ispersist;
     }
 
 
