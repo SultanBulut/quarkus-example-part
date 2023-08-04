@@ -13,13 +13,17 @@ public class MovieService {
     @Inject
     MovieProducer movieProducer;
 
-    @Transactional
     public boolean createMovie(MovieDTO movieDto) {
+        movieProducer.sendMovieToKafka(movieDto);
+        System.out.println("askghlkahg");
+        return helper(movieDto);
+    }
+
+    @Transactional
+    public boolean helper(MovieDTO movieDto) {
         Movie movie = new Movie(movieDto.getTitle(), movieDto.getDirector(), movieDto.getReleaseYear());
         movieRepository.persist(movie);
-        boolean ispersist = movieRepository.isPersistent(movie);;
-        movieProducer.sendMovieToKafka(movie);
-        return ispersist;
+        return movieRepository.isPersistent(movie);
     }
 
 

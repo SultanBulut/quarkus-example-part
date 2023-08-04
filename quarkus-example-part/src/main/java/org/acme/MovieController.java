@@ -60,8 +60,8 @@ public class MovieController {
     // New method for sending movies to Kafka
     @POST
     @Path("/kafka")
-    public Response sendToKafka(Movie movie) {
-        movieProducer.sendMovieToKafka(movie);
+    public Response sendToKafka(MovieDTO movieDTO) {
+        movieProducer.sendMovieToKafka(movieDTO);
         // Return a 202 - Accepted response.
         return Response.accepted().build();
     }

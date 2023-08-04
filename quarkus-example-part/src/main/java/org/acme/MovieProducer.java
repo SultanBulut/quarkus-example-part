@@ -11,10 +11,10 @@ public class MovieProducer {
 
     @Inject
     @Channel("movies-out")
-    Emitter<Movie> emitter;
+    Emitter<MovieDTO> emitter;
 
-    public void sendMovieToKafka(Movie movie) {
-        emitter.send(movie);
+    public void sendMovieToKafka(MovieDTO movieDTO) {
+        emitter.send(movieDTO);
     }
 }
 
