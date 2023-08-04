@@ -14,6 +14,9 @@ public class MovieController {
     @Inject
     MovieService movieService;
 
+    @Inject
+    MovieProducer movieProducer;
+
     @GET
     public Response getAllMovies(){
         List<Movie> movies = movieService.getAllMovies();
@@ -53,6 +56,14 @@ public class MovieController {
         movieService.deleteMovie(title);
         return Response.noContent().build();
 
+    }
+    // New method for sending movies to Kafka
+    @POST
+    @Path("/kafka")
+    public Response sendToKafka(Movie movie) {
+        movieProducer.sendMovieToKafka(movie);
+        // Return a 202 - Accepted response.
+        return Response.accepted().build();
     }
 }
 
