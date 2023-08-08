@@ -15,7 +15,7 @@ public class MovieService {
 
     public boolean createMovie(MovieDTO movieDto) {
         movieProducer.sendMovieToKafka(movieDto);
-        System.out.println("askghlkahg");
+
         return helper(movieDto);
     }
 

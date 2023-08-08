@@ -4,6 +4,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+
 import java.util.List;
 
 @Path("/movies")
@@ -16,6 +17,7 @@ public class MovieController {
 
     @Inject
     MovieProducer movieProducer;
+
 
     @GET
     public Response getAllMovies(){
