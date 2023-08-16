@@ -1,5 +1,6 @@
 package com.avsos.service;
 
+import com.avsos.dto.ActorDTO;
 import com.avsos.entity.Actor;
 import com.avsos.repository.ActorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +15,7 @@ public class ActorService {
     ActorRepository actorRepository;
 
     @Transactional
-    public boolean createActor(Actor actor){
+    public boolean createActor(ActorDTO actor){
         Actor newactor = new Actor(actor.getName(),actor.getLastname(),actor.getGender());
         actorRepository.persist(newactor);
         return actorRepository.isPersistent(newactor);

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,26 +17,35 @@ public class Movie extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "mov_id")
+    private Long movId;
 
     private String title;
-
     @Column(name = "release_year")
     private int releaseYear;
 
-    public Movie(String title, int releaseYear, List<MovieDirection> movieDirection, List<MovieCast> movieCast) {
+    @ManyToMany
+    @JoinTable(name = "movie_direction", joinColumns = @JoinColumn(name = "mov_id"),
+            inverseJoinColumns = @JoinColumn(name = "dir_id"))
+    private List<Director> directors = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "movie_cast", joinColumns = @JoinColumn(name = "mov_id"),
+            inverseJoinColumns = @JoinColumn(name = "act_id"))
+    private List<Actor> actors = new ArrayList<>();
+
+    public Movie(String title, int releaseYear) {
         this.title = title;
         this.releaseYear = releaseYear;
-        this.movieDirection=movieDirection;
-        this.movieCast=movieCast;
     }
 
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
-    private List<MovieDirection> movieDirection;
+    public void assignDirectors(List<Director> directors) {
+        this.directors.addAll(directors);
+    }
 
-    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
-    private List<MovieCast> movieCast;
-
+    public void assignActors(List<Actor> actors) {
+        this.actors.addAll(actors);
+    }
 
 }
 

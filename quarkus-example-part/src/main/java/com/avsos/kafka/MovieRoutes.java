@@ -4,6 +4,7 @@ package com.avsos.kafka;
 import com.avsos.entity.Movie;
 import com.avsos.dto.MovieDTO;
 import com.avsos.repository.MovieRepository;
+import com.avsos.service.MovieService;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,6 +18,8 @@ public class MovieRoutes extends RouteBuilder {
 
     @Inject
     MovieRepository movieRepository;
+    @Inject
+    MovieService movieService;
 
     @Override
     public void configure() throws Exception {
@@ -33,8 +36,9 @@ public class MovieRoutes extends RouteBuilder {
     public Movie processMovie(MovieDTO movieDTO) {
         Optional<Movie> optionalMovie = movieRepository.findByTitle(movieDTO.getTitle());
         if (optionalMovie.isEmpty()) {
-            Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getReleaseYear(),
-                    movieDTO.getMovieDirection(), movieDTO.getMovieCast());
+            Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getReleaseYear());
+            movie.assignDirectors(movieService.findDirectors(movieDTO.getDirIds()));
+            movie.assignActors(movieService.findActors(movieDTO.getActIds()));
             movieRepository.persist(movie);
             //movie.setReleaseYear(1230);
             return movie;

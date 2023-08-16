@@ -1,5 +1,6 @@
 package com.avsos.controller;
 
+import com.avsos.dto.ActorDTO;
 import com.avsos.entity.Actor;
 import com.avsos.service.ActorService;
 import jakarta.inject.Inject;
@@ -9,7 +10,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
-@Path("/actors")
+@Path("/actor")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ActorController {
@@ -23,9 +24,9 @@ public class ActorController {
     }
 
     @POST
-    public Response createActor(Actor actor){
-        if(actorService.createActor(actor)){
-            return Response.ok(actor).build();
+    public Response createActor(ActorDTO actorDTO){
+        if(actorService.createActor(actorDTO)){
+            return Response.ok().build();
         }else {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

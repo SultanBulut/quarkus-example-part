@@ -4,9 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="1" author="your_name">
+    <changeSet id="1" author="sultan">
         <createTable tableName="movie">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="mov_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(255)"/>
@@ -14,9 +14,9 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="your_name">
+    <changeSet id="2" author="sultan">
         <createTable tableName="actor">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="act_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(255)"/>
@@ -25,9 +25,9 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="3" author="your_name">
+    <changeSet id="3" author="sultan">
         <createTable tableName="director">
-            <column name="id" type="BIGINT" autoIncrement="true">
+            <column name="dir_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(255)"/>
@@ -35,7 +35,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="4" author="your_name">
+    <changeSet id="4" author="sultan">
         <insert tableName="movie">
             <column name="title" value="Movie 1"/>
             <column name="release_year" value="2021"/>
@@ -46,44 +46,44 @@
         </insert>
     </changeSet>
 
-    <changeSet id="5" author="your_name">
-        <createTable tableName="movieDirection">
+    <changeSet id="5" author="sultan">
+        <createTable tableName="movie_direction">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="movie_id" type="BIGINT"/>
-            <column name="director_id" type="BIGINT"/>
+            <column name="mov_id" type="BIGINT"/>
+            <column name="dir_id" type="BIGINT"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="movieDirection"
-                                 baseColumnNames="movie_id"
+        <addForeignKeyConstraint baseTableName="movie_direction"
+                                 baseColumnNames="mov_id"
                                  referencedTableName="movie"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="mov_id"
                                  constraintName="fk_movie_dir_movie"/>
-        <addForeignKeyConstraint baseTableName="movieDirection"
-                                 baseColumnNames="director_id"
+        <addForeignKeyConstraint baseTableName="movie_direction"
+                                 baseColumnNames="dir_id"
                                  referencedTableName="director"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="dir_id"
                                  constraintName="fk_movie_dir_director"/>
     </changeSet>
 
-    <changeSet id="6" author="your_name">
-        <createTable tableName="movieCast">
+    <changeSet id="6" author="sultan">
+        <createTable tableName="movie_cast">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="movie_id" type="BIGINT"/>
-            <column name="actor_id" type="BIGINT"/>
+            <column name="mov_id" type="BIGINT"/>
+            <column name="act_id" type="BIGINT"/>
             <column name="role_name" type="VARCHAR(255)"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="movieCast"
-                                 baseColumnNames="movie_id"
+        <addForeignKeyConstraint baseTableName="movie_cast"
+                                 baseColumnNames="mov_id"
                                  referencedTableName="movie"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="mov_id"
                                  constraintName="fk_movie_cast_movie"/>
-        <addForeignKeyConstraint baseTableName="movieCast"
-                                 baseColumnNames="actor_id"
+        <addForeignKeyConstraint baseTableName="movie_cast"
+                                 baseColumnNames="act_id"
                                  referencedTableName="actor"
-                                 referencedColumnNames="id"
+                                 referencedColumnNames="act_id"
                                  constraintName="fk_movie_cast_actor"/>
     </changeSet>
 

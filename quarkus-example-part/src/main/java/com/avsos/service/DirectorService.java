@@ -1,5 +1,6 @@
 package com.avsos.service;
 
+import com.avsos.dto.DirectorDTO;
 import com.avsos.repository.DirectorRepository;
 import com.avsos.entity.Director;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,7 +14,7 @@ public class DirectorService {
     DirectorRepository directorRepository;
 
     @Transactional
-    public boolean createDirector(Director director){
+    public boolean createDirector(DirectorDTO director){
         Director newdirector = new Director(director.getName(),director.getLastname());
         directorRepository.persist(newdirector);
         return directorRepository.isPersistent(newdirector);
