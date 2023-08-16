@@ -38,9 +38,10 @@ public class MovieRoutes extends RouteBuilder {
         if (optionalMovie.isEmpty()) {
             Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getReleaseYear());
             movie.assignDirectors(movieService.findDirectors(movieDTO.getDirIds()));
-            movie.assignActors(movieService.findActors(movieDTO.getActIds()));
+            movie.assignActors(movieService.findActors(movieDTO.getActorPayloads()));
             movieRepository.persist(movie);
             //movie.setReleaseYear(1230);
+            movieService.assignRoles(movie.getMovId(), movieDTO.getActorPayloads());
             return movie;
 
         } else {

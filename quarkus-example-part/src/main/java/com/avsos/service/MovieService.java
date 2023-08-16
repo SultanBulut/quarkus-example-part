@@ -1,12 +1,15 @@
 package com.avsos.service;
 
+import com.avsos.dto.ActorPayload;
 import com.avsos.entity.Actor;
 import com.avsos.entity.Director;
 import com.avsos.entity.Movie;
 import com.avsos.dto.MovieDTO;
+import com.avsos.entity.MovieCast;
 import com.avsos.kafka.MovieProducer;
 import com.avsos.repository.ActorRepository;
 import com.avsos.repository.DirectorRepository;
+import com.avsos.repository.MovieCastRepository;
 import com.avsos.repository.MovieRepository;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -26,6 +29,8 @@ public class MovieService {
     DirectorRepository directorRepository;
     @Inject
     ActorRepository actorRepository;
+    @Inject
+    MovieCastRepository movieCastRepository;
 
     @Inject
     MovieProducer movieProducer;
@@ -40,8 +45,9 @@ public class MovieService {
     public boolean helper(MovieDTO movieDTO) {
         Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getReleaseYear());
         movie.assignDirectors(findDirectors(movieDTO.getDirIds()));
-        movie.assignActors(findActors(movieDTO.getActIds()));
+        movie.assignActors(findActors(movieDTO.getActorPayloads()));
         movieRepository.persist(movie);
+        assignRoles(movie.getMovId(), movieDTO.getActorPayloads());
         return movieRepository.isPersistent(movie);
     }
 
@@ -53,12 +59,21 @@ public class MovieService {
         return result;
     }
 
-    public List<Actor> findActors(List<Long> actorIds) {
+    public List<Actor> findActors(List<ActorPayload> actorPayloads) {
         List<Actor> result = new ArrayList<>();
-        for (long id : actorIds) {
-            result.add(actorRepository.findById(id));
+        for (ActorPayload actorPayload : actorPayloads) {
+            result.add(actorRepository.findById(actorPayload.getId()));
         }
         return result;
+    }
+
+    @Transactional
+    public void assignRoles(long movId, List<ActorPayload> actorPayloads) {
+        for (ActorPayload actorPayload : actorPayloads) {
+            Optional<MovieCast> movieCast =
+                    movieCastRepository.findByForeignKeys(movId, actorPayload.getId());
+            movieCast.ifPresent(cast -> cast.setRole(actorPayload.getRole()));
+        }
     }
 
     public Optional<Movie> getMovieByTitle(String title) {

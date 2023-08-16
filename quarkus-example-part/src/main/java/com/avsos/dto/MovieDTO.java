@@ -10,6 +10,7 @@ public class MovieDTO {
     private String title;
     private int releaseYear;
     private List<Long> dirIds;
-    private List<Long> actIds;
+    private List<ActorPayload> actorPayloads;
+    private String movieRole;
 
 }

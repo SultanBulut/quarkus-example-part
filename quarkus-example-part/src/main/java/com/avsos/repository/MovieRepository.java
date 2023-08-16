@@ -10,6 +10,6 @@ import java.util.Optional;
 public class MovieRepository implements PanacheRepository<Movie> {
 
     public Optional<Movie> findByTitle(String title){
-        return find(" FROM Movie where title=?1 ",title).firstResultOptional();
+        return find(" FROM Movie WHERE title=?1 ",title).firstResultOptional();
     }
 }
