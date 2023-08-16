@@ -11,6 +11,5 @@ public class MovieDTO {
     private int releaseYear;
     private List<Long> dirIds;
     private List<ActorPayload> actorPayloads;
-    private String movieRole;
 
 }
