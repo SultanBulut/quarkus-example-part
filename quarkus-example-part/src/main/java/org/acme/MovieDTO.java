@@ -2,6 +2,8 @@ package org.acme;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MovieDTO {
 
@@ -9,6 +11,9 @@ public class MovieDTO {
 
     private int releaseYear;
 
-    private String director;
+    //private String director;
+
+    private List<MovieDirection> movieDirection;
+    private List<MovieCast> movieCast;
 
 }

@@ -21,7 +21,7 @@ public class MovieService {
 
     @Transactional
     public boolean helper(MovieDTO movieDto) {
-        Movie movie = new Movie(movieDto.getTitle(), movieDto.getDirector(), movieDto.getReleaseYear());
+        Movie movie = new Movie(movieDto.getTitle(), movieDto.getReleaseYear(),movieDto.getMovieDirection(),movieDto.getMovieCast());
         movieRepository.persist(movie);
         return movieRepository.isPersistent(movie);
     }
@@ -35,7 +35,7 @@ public class MovieService {
     @Transactional
     public void updateMovie(String title,MovieDTO movieDto) {
         Movie movieFromDatabase = Movie.findMovieByTitle(title);
-        movieFromDatabase.setDirector(movieDto.getDirector());
+       // movieFromDatabase.setDirector(movieDto.getDirector());
         movieFromDatabase.setReleaseYear(movieDto.getReleaseYear());
     }
 
