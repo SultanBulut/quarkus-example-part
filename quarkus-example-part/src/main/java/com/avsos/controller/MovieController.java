@@ -1,4 +1,9 @@
-package org.acme;
+package com.avsos.controller;
+
+import com.avsos.entity.Movie;
+import com.avsos.dto.MovieDTO;
+import com.avsos.kafka.MovieProducer;
+import com.avsos.service.MovieService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

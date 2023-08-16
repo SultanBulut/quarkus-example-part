@@ -1,4 +1,4 @@
-package org.acme;
+package com.avsos.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -21,7 +22,6 @@ public class Director extends PanacheEntityBase {
         this.name=name;
         this.lastname=lastname;
     }
-
 
     @OneToMany(mappedBy = "director",cascade = CascadeType.ALL)
     private List<MovieDirection> movieDirection;

@@ -1,5 +1,7 @@
-package org.acme;
+package com.avsos.controller;
 
+import com.avsos.entity.Director;
+import com.avsos.service.DirectorService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

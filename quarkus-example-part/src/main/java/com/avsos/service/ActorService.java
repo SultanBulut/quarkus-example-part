@@ -1,5 +1,7 @@
-package org.acme;
+package com.avsos.service;
 
+import com.avsos.entity.Actor;
+import com.avsos.repository.ActorRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

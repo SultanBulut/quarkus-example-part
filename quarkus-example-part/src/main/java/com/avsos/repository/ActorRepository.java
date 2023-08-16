@@ -1,5 +1,6 @@
-package org.acme;
+package com.avsos.repository;
 
+import com.avsos.entity.Actor;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 

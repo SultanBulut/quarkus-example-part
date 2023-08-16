@@ -1,5 +1,4 @@
-package org.acme;
-
+package com.avsos.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
@@ -11,20 +10,18 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class MovieCast extends PanacheEntityBase {
+public class MovieDirection extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name= "movie_id")
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "actor_id")
-    private Actor actor;
-
-    private String roleName;
+    @JoinColumn(name = "director_id")
+    private Director director;
 
 }

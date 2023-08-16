@@ -1,4 +1,9 @@
-package org.acme;
+package com.avsos.service;
+
+import com.avsos.entity.Movie;
+import com.avsos.dto.MovieDTO;
+import com.avsos.kafka.MovieProducer;
+import com.avsos.repository.MovieRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -21,7 +26,8 @@ public class MovieService {
 
     @Transactional
     public boolean helper(MovieDTO movieDto) {
-        Movie movie = new Movie(movieDto.getTitle(), movieDto.getReleaseYear(),movieDto.getMovieDirection(),movieDto.getMovieCast());
+        Movie movie = new Movie(movieDto.getTitle(), movieDto.getReleaseYear(),
+                movieDto.getMovieDirection(), movieDto.getMovieCast());
         movieRepository.persist(movie);
         return movieRepository.isPersistent(movie);
     }

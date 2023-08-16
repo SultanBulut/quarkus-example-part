@@ -1,9 +1,12 @@
-package org.acme;
+package com.avsos.service;
 
+import com.avsos.repository.DirectorRepository;
+import com.avsos.entity.Director;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import java.util.List;
+
 @ApplicationScoped
 public class DirectorService {
     @Inject
