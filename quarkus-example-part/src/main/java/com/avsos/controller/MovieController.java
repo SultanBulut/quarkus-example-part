@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Response;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
@@ -33,8 +34,8 @@ public class MovieController {
     @GET
     @Path("/{title}")
     public Response getMovieByTitle(@PathParam("title") String title){
-        Movie movie = movieService.getMovieByTitle(title);
-        if(movie!=null){
+        Optional<Movie> movie = movieService.getMovieByTitle(title);
+        if(movie.isPresent()){
             return Response.ok(movie).build();
         }else{
             return Response.status(Response.Status.NOT_FOUND).build();

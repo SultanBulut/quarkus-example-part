@@ -20,7 +20,6 @@ public class DirectorService {
 
     }
 
-    @Transactional
     public List<Director> getAllDirectors(){
         return directorRepository.findAll().list();
     }

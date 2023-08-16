@@ -20,8 +20,8 @@ public class ActorService {
         return actorRepository.isPersistent(newactor);
     }
 
-    @Transactional
     public List<Actor> getAllActors(){
         return actorRepository.findAll().list();
     }
+
 }

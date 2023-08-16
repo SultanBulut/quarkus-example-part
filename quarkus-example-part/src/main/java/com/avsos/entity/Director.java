@@ -12,9 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Director extends PanacheEntityBase {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String lastname;
 

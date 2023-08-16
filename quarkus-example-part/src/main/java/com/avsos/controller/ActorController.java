@@ -17,13 +17,13 @@ public class ActorController {
     ActorService actorService;
 
     @GET
-    public Response getALLActors(){
+    public Response getAllActors(){
         List<Actor> actors= actorService.getAllActors();
         return Response.ok(actors).build();
     }
 
     @POST
-    public Response createActors(Actor actor){
+    public Response createActor(Actor actor){
         if(actorService.createActor(actor)){
             return Response.ok(actor).build();
         }else {

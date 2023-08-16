@@ -23,7 +23,7 @@ public class DirectorController {
     }
 
     @POST
-    public Response createDirectors(Director director){
+    public Response createDirector(Director director){
         if(directorService.createDirector(director)){
             return Response.ok().build();
         }else{

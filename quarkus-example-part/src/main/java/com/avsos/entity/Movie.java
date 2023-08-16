@@ -30,10 +30,6 @@ public class Movie extends PanacheEntityBase {
         this.movieCast=movieCast;
     }
 
-    public static Movie findMovieByTitle(String title) {
-        return find("title", title).firstResult();
-    }
-
     @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL)
     private List<MovieDirection> movieDirection;
 
