@@ -24,4 +24,5 @@ public class DirectorService {
     public List<Director> getAllDirectors(){
         return directorRepository.findAll().list();
     }
+
 }

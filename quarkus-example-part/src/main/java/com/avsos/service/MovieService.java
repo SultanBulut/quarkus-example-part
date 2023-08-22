@@ -1,5 +1,6 @@
 package com.avsos.service;
 
+import com.avsos.debezium.MovieCreatedEvent;
 import com.avsos.dto.ActorPayload;
 import com.avsos.entity.Actor;
 import com.avsos.entity.Director;
@@ -11,8 +12,10 @@ import com.avsos.repository.ActorRepository;
 import com.avsos.repository.DirectorRepository;
 import com.avsos.repository.MovieCastRepository;
 import com.avsos.repository.MovieRepository;
+import io.debezium.outbox.quarkus.ExportedEvent;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 
@@ -31,6 +34,8 @@ public class MovieService {
     ActorRepository actorRepository;
     @Inject
     MovieCastRepository movieCastRepository;
+    @Inject
+    Event<ExportedEvent<?, ?>> event;
 
     @Inject
     MovieProducer movieProducer;
@@ -47,6 +52,7 @@ public class MovieService {
         movie.assignDirectors(findDirectors(movieDTO.getDirIds()));
         movie.assignActors(findActors(movieDTO.getActorPayloads()));
         movieRepository.persist(movie);
+        event.fire(MovieCreatedEvent.of(movie));
         assignRoles(movie.getMovId(), movieDTO.getActorPayloads());
         return movieRepository.isPersistent(movie);
     }

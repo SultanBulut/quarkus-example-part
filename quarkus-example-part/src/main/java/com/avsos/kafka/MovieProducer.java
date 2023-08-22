@@ -1,5 +1,6 @@
 
 package com.avsos.kafka;
+
 import com.avsos.dto.MovieDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.ProducerTemplate;
