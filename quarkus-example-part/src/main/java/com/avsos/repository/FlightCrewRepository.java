@@ -1,9 +1,9 @@
 package com.avsos.repository;
 
-import com.avsos.entity.Actor;
+import com.avsos.entity.FlightCrew;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class ActorRepository implements PanacheRepository<Actor> {
+public class FlightCrewRepository implements PanacheRepository<FlightCrew> {
 }

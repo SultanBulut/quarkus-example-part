@@ -4,87 +4,98 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="1" author="sultan">
-        <createTable tableName="movie">
-            <column name="mov_id" type="BIGINT" autoIncrement="true">
+    <changeSet id="createFlighTable" author="sultan">
+        <createTable tableName="flightleg">
+            <column name="leg_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="title" type="VARCHAR(255)"/>
-            <column name="release_year" type="INT"/>
+            <column name="flight_number" type="VARCHAR(255)"/>
+            <column name="departure_airport" type="VARCHAR(255)"/>
+            <column name="arrival_airport" type="VARCHAR(255)"/>
+            <column name="departure_gate" type="VARCHAR(255)"/>
+            <column name="arrival_gate" type="VARCHAR(255)"/>
+            <column name="departure_date" type="TIMESTAMP"/>
+
         </createTable>
     </changeSet>
 
-    <changeSet id="2" author="sultan">
-        <createTable tableName="actor">
-            <column name="act_id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(255)"/>
-            <column name="lastname" type="VARCHAR(255)"/>
-            <column name="gender" type="VARCHAR(10)"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="3" author="sultan">
-        <createTable tableName="director">
-            <column name="dir_id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(255)"/>
-            <column name="lastname" type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="4" author="sultan">
-        <insert tableName="movie">
-            <column name="title" value="Movie 1"/>
-            <column name="release_year" value="2021"/>
-        </insert>
-        <insert tableName="movie">
-            <column name="title" value="Movie 2"/>
-            <column name="release_year" value="2022"/>
+    <changeSet id="insertSampleFlighData" author="sultan">
+        <insert tableName="flightleg">
+            <column name="flight_number" value="FL123"/>
+            <column name="departure_airport" value="JFK"/>
+            <column name="arrival_airport" value="LAX"/>
+            <column name="departure_gate" value="A1"/>
+            <column name="arrival_gate" value="B3"/>
+            <column name="departure_date" value="2023-08-16 14:30:00"/>
         </insert>
     </changeSet>
 
-    <changeSet id="5" author="sultan">
-        <createTable tableName="movie_direction">
-            <column name="id" type="BIGINT" autoIncrement="true">
+    <changeSet id="createFlightCrewTable" author="sultan">
+        <createTable tableName="flightcrew">
+            <column name="crew_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="mov_id" type="BIGINT"/>
-            <column name="dir_id" type="BIGINT"/>
+            <column name="crew_name" type="VARCHAR(255)"/>
+            <column name="crew_position" type="VARCHAR(255)"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="duty_type" type="VARCHAR(255)"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="movie_direction"
-                                 baseColumnNames="mov_id"
-                                 referencedTableName="movie"
-                                 referencedColumnNames="mov_id"
-                                 constraintName="fk_movie_dir_movie"/>
-        <addForeignKeyConstraint baseTableName="movie_direction"
-                                 baseColumnNames="dir_id"
-                                 referencedTableName="director"
-                                 referencedColumnNames="dir_id"
-                                 constraintName="fk_movie_dir_director"/>
     </changeSet>
 
-    <changeSet id="6" author="sultan">
-        <createTable tableName="movie_cast">
+    <changeSet id="createAirCraftTable" author="sultan">
+        <createTable tableName="aircraft">
+            <column name="aircraft_id"  type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ac_type" type="VARCHAR(255)"/>
+            <column name="subtype" type="VARCHAR(255)"/>
+            <column name="customized_type" type="VARCHAR(255)"/>
+            <column name="name_of_aircraft" type="VARCHAR(255)"/>
+            <column name="number_of_seats" type="BIGINT"/>
+            <column name="registrar" type="VARCHAR(255)"/>
+            <column name="owner" type="VARCHAR(255)"/>
+            <column name="contract" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="createFlightLegFlightCrewTable" author="sultan">
+        <createTable tableName="flight_leg_flight_crew">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="mov_id" type="BIGINT"/>
-            <column name="act_id" type="BIGINT"/>
-            <column name="role_name" type="VARCHAR(255)"/>
+            <column name="leg_id" type="BIGINT"/>
+            <column name="crew_id" type="BIGINT"/>
         </createTable>
-        <addForeignKeyConstraint baseTableName="movie_cast"
-                                 baseColumnNames="mov_id"
-                                 referencedTableName="movie"
-                                 referencedColumnNames="mov_id"
-                                 constraintName="fk_movie_cast_movie"/>
-        <addForeignKeyConstraint baseTableName="movie_cast"
-                                 baseColumnNames="act_id"
-                                 referencedTableName="actor"
-                                 referencedColumnNames="act_id"
-                                 constraintName="fk_movie_cast_actor"/>
+        <addForeignKeyConstraint baseTableName="flight_leg_flight_crew"
+                                 baseColumnNames="leg_id"
+                                 referencedTableName="flightleg"
+                                 referencedColumnNames="leg_id"
+                                 constraintName="fk_flight_leg_flight_crew_flightleg"/>
+        <addForeignKeyConstraint baseTableName="flight_leg_flight_crew"
+                                 baseColumnNames="crew_id"
+                                 referencedTableName="flightcrew"
+                                 referencedColumnNames="crew_id"
+                                 constraintName="fk_flight_leg_flight_crew_flightcrew"/>
+    </changeSet>
+
+    <changeSet id="createFlightLegAircraftTable" author="sultan">
+        <createTable tableName="flight_leg_aircraft">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="leg_id" type="BIGINT"/>
+            <column name="aircraft_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="flight_leg_aircraft"
+                                 baseColumnNames="leg_id"
+                                 referencedTableName="flightleg"
+                                 referencedColumnNames="leg_id"
+                                 constraintName="fk_flight_leg_aircraft_flightleg"/>
+        <addForeignKeyConstraint baseTableName="flight_leg_aircraft"
+                                 baseColumnNames="aircraft_id"
+                                 referencedTableName="aircraft"
+                                 referencedColumnNames="aircraft_id"
+                                 constraintName="fk_flight_leg_aircraft_aircraft"/>
     </changeSet>
 
 </databaseChangeLog>
