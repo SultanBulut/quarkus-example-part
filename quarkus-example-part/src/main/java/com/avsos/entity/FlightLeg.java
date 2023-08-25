@@ -1,29 +1,24 @@
 package com.avsos.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.quarkus.mongodb.panache.PanacheMongoEntity;
-import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
-import io.quarkus.mongodb.panache.common.MongoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.bson.codecs.pojo.annotations.BsonId;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//@Entity
+@Entity
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-@MongoEntity(collection="flightleg")
-public class FlightLeg extends PanacheMongoEntityBase { // extends PanacheEntityBase
-   // @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @BsonId
-    @Column(name = "leg_id")
+public class FlightLeg extends PanacheEntityBase { // extends PanacheEntityBase
+
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "leg_id")
     private Long legId;
 
     @Column(name = "flight_number")

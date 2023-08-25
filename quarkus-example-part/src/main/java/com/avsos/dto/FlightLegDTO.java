@@ -1,5 +1,6 @@
 package com.avsos.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ public class FlightLegDTO {
     private String arrivalAirport;
     private String departureGate;
     private String arrivalGate;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private Date departureDate;
     private List<Long> crewIds;
     private List<Long> aircraftIds;
