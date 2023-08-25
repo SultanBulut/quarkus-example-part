@@ -37,9 +37,7 @@ public class FlightLegService {
         flightLeg.assignFlightCrews(findFlightCrews(flightLegDTO.getCrewIds()));
         flightLeg.assignAirCrafts(findAirCrafts(flightLegDTO.getAircraftIds()));
         flightRepository.persist(flightLeg);
-        return flightLeg.getLegId() != null;
-
-        //return flightRepository.isPersistent(flightLeg);
+        return flightRepository.isPersistent(flightLeg);
     }
 
 

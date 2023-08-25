@@ -24,8 +24,10 @@ public class FlightLegRoutes extends RouteBuilder {
     public void configure() throws Exception {
         from("kafka:flightlegs-in")
                 .log("Received: ${body}")
+                .to("bean:EventUtil?method=createEvent(*)")
                 .unmarshal().json(JsonLibrary.Jackson, FlightLegDTO.class)
                 .bean(this, "processFlightLeg")
+                .to("bean:EventUtil?method=createEvent(*)")
                 .marshal().json()
                 .log("Sent: ${body}")
                 .to("kafka:flightlegs-out");
