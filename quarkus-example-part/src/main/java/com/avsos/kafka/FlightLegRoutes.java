@@ -28,13 +28,13 @@ public class FlightLegRoutes extends RouteBuilder {
                 .unmarshal().json(JsonLibrary.Jackson, FlightLegDTO.class)
                 .bean(this, "processFlightLeg")
 //                .to("bean:EventUtil?method=createEvent(*)")
-//                .marshal().json()
+                .marshal().json()
                 .log("Sent: ${body}")
                 .to("kafka:flightlegs-out");
     }
 
     @Transactional
-    public String processFlightLeg(FlightLegDTO flightLegDTO) {
+    public FlightLegDTO processFlightLeg(FlightLegDTO flightLegDTO) {
         Optional<FlightLeg> optionalFlightLeg = flightRepository.findByFlightNumber(flightLegDTO.getFlightNumber());
 
         if (optionalFlightLeg.isEmpty()) {
@@ -50,7 +50,8 @@ public class FlightLegRoutes extends RouteBuilder {
             flightLeg.assignAirCrafts(flightLegService.findAirCrafts(flightLegDTO.getAircraftIds()));
             flightRepository.persist(flightLeg);
 
-            return "flightLeg";
+           // return "flightLeg";
+            return flightLegDTO;
         } else {
             FlightLeg existingFlightLeg = optionalFlightLeg.get();
             existingFlightLeg.setDepartureAirport(flightLegDTO.getDepartureAirport());
@@ -59,7 +60,8 @@ public class FlightLegRoutes extends RouteBuilder {
             existingFlightLeg.setArrivalGate(flightLegDTO.getArrivalGate());
             existingFlightLeg.setDepartureDate(flightLegDTO.getDepartureDate());
 
-            return "existingFlightLeg";
+            //return "existingFlightLeg";
+            return flightLegDTO;
         }
     }
 
