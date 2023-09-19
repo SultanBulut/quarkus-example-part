@@ -21,6 +21,9 @@ public class FlightLeg extends PanacheEntityBase { // extends PanacheEntityBase
    @Column(name = "leg_id")
     private Long legId;
 
+    @Column(name="flight_leg_id")
+    private String flightLegId;
+
     @Column(name = "flight_number")
     private String flightNumber;
 
@@ -39,18 +42,19 @@ public class FlightLeg extends PanacheEntityBase { // extends PanacheEntityBase
     @Column(name = "departure_date")
     private Date departureDate;
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name="flight_leg_flight_crew",joinColumns =@JoinColumn(name = "leg_id"),
             inverseJoinColumns = @JoinColumn(name = "crew_id"))
     private List<FlightCrew> flightCrews =new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name="flight_leg_aircraft",joinColumns =@JoinColumn(name = "leg_id"),
             inverseJoinColumns = @JoinColumn(name = "aircraft_id"))
     private List<AirCraft> aircrafts  =new ArrayList<>();
 
 
-    public FlightLeg(String flightNumber, String departureAirport, String arrivalAirport, String departureGate, String arrivalGate, Date departureDate) {
+    public FlightLeg(String flightLegId,String flightNumber, String departureAirport, String arrivalAirport, String departureGate, String arrivalGate, Date departureDate) {
+        this.flightLegId=flightLegId;
         this.flightNumber=flightNumber;
         this.departureAirport=departureAirport;
         this.arrivalAirport=arrivalAirport;
@@ -59,8 +63,8 @@ public class FlightLeg extends PanacheEntityBase { // extends PanacheEntityBase
         this.departureDate=departureDate;
     }
 
-    public static FlightLeg findFlightLegByFlightNumber(String flightNumber) {
-        return find("flightNumber", flightNumber).firstResult();
+    public static FlightLeg findFlightLegByFlightLegID(String flightLegId) {
+        return find("flightLegId", flightLegId).firstResult();
     }
 
     public void assignFlightCrews(List<FlightCrew> flightCrews) {

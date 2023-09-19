@@ -9,6 +9,7 @@
             <column name="leg_id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="flight_leg_id" type="VARCHAR(255)"/>
             <column name="flight_number" type="VARCHAR(255)"/>
             <column name="departure_airport" type="VARCHAR(255)"/>
             <column name="arrival_airport" type="VARCHAR(255)"/>
@@ -21,6 +22,7 @@
 
     <changeSet id="insertSampleFlighData" author="sultan">
         <insert tableName="flightleg">
+            <column name="flight_leg_id" value="1"/>
             <column name="flight_number" value="FL123"/>
             <column name="departure_airport" value="JFK"/>
             <column name="arrival_airport" value="LAX"/>

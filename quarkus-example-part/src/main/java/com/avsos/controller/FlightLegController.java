@@ -24,9 +24,9 @@ public class FlightLegController {
     }
 
     @GET
-    @Path("/{flightNumber}")
-    public Response getFlightLegsByFlightNumber(@PathParam("flightNumber")String flightNumber){
-        FlightLeg flightLeg= flightLegService.getFlightLegByFlightNumber(flightNumber);
+    @Path("/{flightLegId}")
+    public Response getFlightLegsByFlightLegId(@PathParam("flightLegId")String flightLegId){
+        FlightLeg flightLeg= flightLegService.getFlightLegByFlightLegID(flightLegId);
         if(flightLeg!=null){
             return Response.ok(flightLeg).build();
         }else{
@@ -44,16 +44,19 @@ public class FlightLegController {
     }
 
     @PUT
-    @Path("/{flightNumber}")
-    public Response updateFlightLeg(@PathParam("flightNumber")String flightNumber,FlightLegDTO flightLegDTO){
-        flightLegService.updateFlightLeg(flightNumber,flightLegDTO);
-        return Response.ok(flightLegDTO).build();
+    @Path("/{flightLegId}")
+    public Response updateFlightLeg(@PathParam("flightLegId") String flightLegId,FlightLegDTO flightLegDTO){
+     flightLegService.updateFlightLeg(flightLegId,flightLegDTO);
+     return Response.ok(flightLegDTO).build();
     }
 
     @DELETE
-    @Path("/{flightNumber}")
-    public Response deleteFlightLeg(@PathParam("flightNumber")String flightNumber){
-        flightLegService.deleteFlightLeg(flightNumber);
+    @Path("/{flightLegId}")
+    public Response deleteFlightLeg(@PathParam("flightLegId")String flightLegId){
+        flightLegService.deleteFlightLeg(flightLegId);
         return Response.noContent().build();
     }
+
+
+
 }

@@ -39,6 +39,7 @@ public class FlightLegRoutes extends RouteBuilder {
 
         if (optionalFlightLeg.isEmpty()) {
             FlightLeg flightLeg = new FlightLeg(
+                    flightLegDTO.getFlightLegId(),
                     flightLegDTO.getFlightNumber(),
                     flightLegDTO.getDepartureAirport(),
                     flightLegDTO.getArrivalAirport(),
@@ -54,6 +55,7 @@ public class FlightLegRoutes extends RouteBuilder {
             return flightLegDTO;
         } else {
             FlightLeg existingFlightLeg = optionalFlightLeg.get();
+            existingFlightLeg.setFlightLegId(flightLegDTO.getFlightLegId());
             existingFlightLeg.setDepartureAirport(flightLegDTO.getDepartureAirport());
             existingFlightLeg.setArrivalAirport(flightLegDTO.getArrivalAirport());
             existingFlightLeg.setDepartureGate(flightLegDTO.getDepartureGate());

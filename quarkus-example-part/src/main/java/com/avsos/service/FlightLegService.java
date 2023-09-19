@@ -28,12 +28,12 @@ public class FlightLegService {
     AirCraftRepository airCraftRepository;
     @Transactional
     public boolean createFlightLeg (FlightLegDTO flightLegDTO){
-        flightLegProducer.sendFlightLegToKafka(flightLegDTO);
+       flightLegProducer.sendFlightLegToKafka(flightLegDTO);
         return helper(flightLegDTO);
     }
 
     public boolean helper(FlightLegDTO flightLegDTO){
-        FlightLeg flightLeg= new FlightLeg(flightLegDTO.getFlightNumber(), flightLegDTO.getDepartureAirport(),flightLegDTO.getArrivalAirport(),flightLegDTO.getDepartureGate(),flightLegDTO.getArrivalGate(),flightLegDTO.getDepartureDate());
+        FlightLeg flightLeg= new FlightLeg(flightLegDTO.getFlightLegId(),flightLegDTO.getFlightNumber(), flightLegDTO.getDepartureAirport(),flightLegDTO.getArrivalAirport(),flightLegDTO.getDepartureGate(),flightLegDTO.getArrivalGate(),flightLegDTO.getDepartureDate());
         flightLeg.assignFlightCrews(findFlightCrews(flightLegDTO.getCrewIds()));
         flightLeg.assignAirCrafts(findAirCrafts(flightLegDTO.getAircraftIds()));
         flightRepository.persist(flightLeg);
@@ -59,13 +59,15 @@ public class FlightLegService {
     public List<FlightLeg> getAllFlightLeg(){ return flightRepository.findAll().list();}
 
     @Transactional
-    public FlightLeg getFlightLegByFlightNumber(String flightNumber){
-        return FlightLeg.findFlightLegByFlightNumber(flightNumber);
+    public FlightLeg getFlightLegByFlightLegID(String flightLegID){
+        return FlightLeg.findFlightLegByFlightLegID(flightLegID);
     }
 
+
     @Transactional
-    public void updateFlightLeg(String flightNumber,FlightLegDTO flightLegDTO){
-        FlightLeg flightLeg1 = FlightLeg.findFlightLegByFlightNumber(flightNumber);
+    public void updateFlightLeg(String flightLegId,FlightLegDTO flightLegDTO){
+        FlightLeg flightLeg1 = FlightLeg.findFlightLegByFlightLegID(flightLegId);
+        flightLeg1.setFlightNumber(flightLegDTO.getFlightNumber());
         flightLeg1.setArrivalAirport(flightLegDTO.getArrivalAirport());
         flightLeg1.setDepartureAirport(flightLegDTO.getDepartureAirport());
         flightLeg1.setArrivalGate(flightLegDTO.getArrivalGate());
@@ -75,8 +77,8 @@ public class FlightLegService {
     }
 
     @Transactional
-    public void deleteFlightLeg(String flightNumber) {
-        FlightLeg flightLeg = FlightLeg.findFlightLegByFlightNumber(flightNumber);
+    public void deleteFlightLeg(String flightLegId) {
+        FlightLeg flightLeg = FlightLeg.findFlightLegByFlightLegID(flightLegId);
         if (flightLeg != null) {
             flightLeg.delete();
         }
