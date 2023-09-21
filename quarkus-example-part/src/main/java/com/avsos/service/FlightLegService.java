@@ -1,6 +1,7 @@
 package com.avsos.service;
 
 import com.avsos.dto.FlightLegDTO;
+import com.avsos.dto.SimplifiedFlightLegDTO;
 import com.avsos.entity.AirCraft;
 import com.avsos.entity.FlightCrew;
 import com.avsos.entity.FlightLeg;
@@ -35,7 +36,8 @@ public class FlightLegService {
     public boolean helper(FlightLegDTO flightLegDTO){
         FlightLeg flightLeg= new FlightLeg(flightLegDTO.getFlightLegId(),flightLegDTO.getFlightNumber(), flightLegDTO.getDepartureAirport(),flightLegDTO.getArrivalAirport(),flightLegDTO.getDepartureGate(),flightLegDTO.getArrivalGate(),flightLegDTO.getDepartureDate());
         flightLeg.assignFlightCrews(findFlightCrews(flightLegDTO.getCrewIds()));
-        flightLeg.assignAirCrafts(findAirCrafts(flightLegDTO.getAircraftIds()));
+        //flightLeg.assignAirCrafts(findAirCrafts(flightLegDTO.getAircraftIds()));
+        flightLeg.assignAirCraft(findAirCraft(flightLegDTO.getAircraftId()));
         flightRepository.persist(flightLeg);
         return flightRepository.isPersistent(flightLeg);
     }
@@ -49,13 +51,17 @@ public class FlightLegService {
         return flightCrews;
     }
 
-    public List<AirCraft> findAirCrafts(List<Long> aircraftIds){
+    public AirCraft findAirCraft(Long aircraftId) {
+        return airCraftRepository.findById(aircraftId);
+    }
+
+   /* public List<AirCraft> findAirCrafts(List<Long> aircraftIds){
         List<AirCraft> airCrafts= new ArrayList<>();
         for(long id:aircraftIds){
             airCrafts.add(airCraftRepository.findById(id));
         }
         return airCrafts;
-    }
+    }*/
     public List<FlightLeg> getAllFlightLeg(){ return flightRepository.findAll().list();}
 
     @Transactional
@@ -83,4 +89,28 @@ public class FlightLegService {
             flightLeg.delete();
         }
     }
+
+    // Overloaded method to convert a single FlightLeg to SimplifiedFlightLegDTO
+    public SimplifiedFlightLegDTO convertToSimplifiedDTO(FlightLeg flightLeg) {
+        SimplifiedFlightLegDTO simplifiedDTO = new SimplifiedFlightLegDTO();
+        simplifiedDTO.setFlightLegId(flightLeg.getFlightLegId());
+        simplifiedDTO.setFlightNumber(flightLeg.getFlightNumber());
+        simplifiedDTO.setDepartureAirport(flightLeg.getDepartureAirport());
+        simplifiedDTO.setArrivalAirport(flightLeg.getArrivalAirport());
+        simplifiedDTO.setDepartureGate(flightLeg.getDepartureGate());
+        simplifiedDTO.setArrivalGate(flightLeg.getArrivalGate());
+        simplifiedDTO.setDepartureDate(flightLeg.getDepartureDate());
+        return simplifiedDTO;
+    }
+
+    // Overloaded method to convert a list of FlightLegs to SimplifiedFlightLegDTOs
+    public List<SimplifiedFlightLegDTO> convertToSimplifiedDTOs(List<FlightLeg> flightLegs) {
+        List<SimplifiedFlightLegDTO> simplifiedFlightLegs = new ArrayList<>();
+        for (FlightLeg flightLeg : flightLegs) {
+            simplifiedFlightLegs.add(convertToSimplifiedDTO(flightLeg));
+        }
+        return simplifiedFlightLegs;
+    }
+
+
 }

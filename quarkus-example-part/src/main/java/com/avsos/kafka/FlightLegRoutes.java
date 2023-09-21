@@ -48,7 +48,8 @@ public class FlightLegRoutes extends RouteBuilder {
                     flightLegDTO.getDepartureDate()
             );
             flightLeg.assignFlightCrews(flightLegService.findFlightCrews(flightLegDTO.getCrewIds()));
-            flightLeg.assignAirCrafts(flightLegService.findAirCrafts(flightLegDTO.getAircraftIds()));
+            //flightLeg.assignAirCrafts(flightLegService.findAirCrafts(flightLegDTO.getAircraftIds()));
+            flightLeg.assignAirCraft(flightLegService.findAirCraft(flightLegDTO.getAircraftId()));
             flightRepository.persist(flightLeg);
 
            // return "flightLeg";

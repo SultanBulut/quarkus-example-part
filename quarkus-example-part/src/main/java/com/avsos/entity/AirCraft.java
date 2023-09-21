@@ -38,9 +38,13 @@ public class AirCraft {
     private String owner;
     private String contract;
 
-    @JsonIgnore
+   /* @JsonIgnore
     @ManyToMany(mappedBy = "aircrafts")
-    private List<FlightLeg> flightLegs  = new ArrayList<>();
+    private List<FlightLeg> flightLegs  = new ArrayList<>();*/
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "aircraft")
+    private FlightLeg flightLeg ;
 
 
     public AirCraft(String acType,String subtype,String customizedType,String nameOfAircraft,Long numberOfSeats,String registrar,String owner,String contract){

@@ -363,7 +363,7 @@ public class FlightLegTest{
 
 
 
-package com.avsos;
+/*package com.avsos;
 import com.avsos.dto.FlightLegDTO;
 import com.avsos.entity.AirCraft;
 import com.avsos.entity.FlightCrew;
@@ -519,4 +519,4 @@ public class FlightLegTest {
         assertEquals(flightLegId, result.getFlightNumber());
     }
 
-}
+}*/

@@ -47,10 +47,15 @@ public class FlightLeg extends PanacheEntityBase { // extends PanacheEntityBase
             inverseJoinColumns = @JoinColumn(name = "crew_id"))
     private List<FlightCrew> flightCrews =new ArrayList<>();
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    /*@ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(name="flight_leg_aircraft",joinColumns =@JoinColumn(name = "leg_id"),
             inverseJoinColumns = @JoinColumn(name = "aircraft_id"))
-    private List<AirCraft> aircrafts  =new ArrayList<>();
+    private List<AirCraft> aircrafts  =new ArrayList<>();*/
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinTable(name="flight_leg_aircraft",joinColumns =@JoinColumn(name = "leg_id"),
+            inverseJoinColumns = @JoinColumn(name = "aircraft_id"))
+    private AirCraft aircraft;
 
 
     public FlightLeg(String flightLegId,String flightNumber, String departureAirport, String arrivalAirport, String departureGate, String arrivalGate, Date departureDate) {
@@ -71,9 +76,14 @@ public class FlightLeg extends PanacheEntityBase { // extends PanacheEntityBase
         this.flightCrews.addAll(flightCrews);
     }
 
-    public void assignAirCrafts(List<AirCraft> aircrafts) {
+   /* public void assignAirCrafts(List<AirCraft> aircrafts) {
         this.aircrafts.addAll(aircrafts);
+    }*/
+
+    public void assignAirCraft(AirCraft aircraft) {
+        this.aircraft = aircraft;
     }
+
 
 
 }
