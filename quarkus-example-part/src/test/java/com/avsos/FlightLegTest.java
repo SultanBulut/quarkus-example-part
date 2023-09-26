@@ -1,114 +1,4 @@
-/*package com.avsos;
 
-import com.avsos.dto.FlightLegDTO;
-import com.avsos.entity.FlightLeg;
-import com.avsos.service.FlightLegService;
-import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-@QuarkusTest
-public class FlightLegTest {
-
-    @Inject
-    FlightLegService flightLegService;
-
-    @Test
-    public void testCreateFlightLeg() {
-        FlightLegDTO flightLegDTO = new FlightLegDTO();
-        flightLegDTO.setFlightNumber("FL123");
-        flightLegDTO.setDepartureAirport("Airport A");
-        flightLegDTO.setArrivalAirport("Airport B");
-        flightLegDTO.setDepartureGate("Gate A");
-        flightLegDTO.setArrivalGate("Gate B");
-        flightLegDTO.setDepartureDate(new Date());
-
-        List<Long> flightCrewIds = new ArrayList<>();
-        flightCrewIds.add(1L);
-        flightCrewIds.add(2L);
-        flightLegDTO.setCrewIds(flightCrewIds);
-
-        List<Long> aircraftIds = new ArrayList<>();
-        aircraftIds.add(1L);
-        aircraftIds.add(2L);
-        flightLegDTO.setAircraftIds(aircraftIds);
-
-
-
-        boolean result = flightLegService.createFlightLeg(flightLegDTO);
-
-        assertTrue(result, "Failed to create a FlightLeg");
-    }
-
-    @Test
-    public void testGetFlightLegByFlightNumber() {
-        FlightLegDTO flightLegDTO = new FlightLegDTO();
-        flightLegDTO.setFlightNumber("FL123");
-        flightLegDTO.setDepartureAirport("Airport A");
-        flightLegDTO.setArrivalAirport("Airport B");
-        flightLegDTO.setDepartureGate("Gate A");
-        flightLegDTO.setArrivalGate("Gate B");
-        flightLegDTO.setDepartureDate(new Date());
-
-        flightLegService.createFlightLeg(flightLegDTO);
-
-
-        FlightLeg flightLeg = flightLegService.getFlightLegByFlightNumber("FL123");
-
-        assertNotNull(flightLeg, "FlightLeg with flight number FL123 not found");
-    }
-
-    @Test
-    public void testGetAllFlightLegs() {
-        List<FlightLeg> flightLegList = flightLegService.getAllFlightLeg();
-
-        assertNotNull(flightLegList, "FlightLeg list should not be null");
-        assertNotEquals(0, flightLegList.size(), "FlightLeg list should not be empty");
-    }
-
-   @Test
-    public void testUpdateFlightLeg() {
-
-        FlightLegDTO flightLegDTO = new FlightLegDTO();
-        flightLegDTO.setFlightNumber("FL123");
-        flightLegDTO.setDepartureAirport("Airport A");
-        flightLegDTO.setArrivalAirport("Airport B");
-        flightLegDTO.setDepartureGate("Gate A");
-        flightLegDTO.setArrivalGate("Gate B");
-        flightLegDTO.setDepartureDate(new Date());
-
-        flightLegService.createFlightLeg(flightLegDTO);
-
-
-        FlightLegDTO updatedFlightLegDTO = new FlightLegDTO();
-        updatedFlightLegDTO.setArrivalAirport("New Airport X");
-        updatedFlightLegDTO.setDepartureAirport("New Airport Y");
-        updatedFlightLegDTO.setArrivalGate("New Gate X");
-        updatedFlightLegDTO.setDepartureGate("New Gate Y");
-        updatedFlightLegDTO.setDepartureDate(new Date());
-
-        flightLegService.updateFlightLeg("FL123", updatedFlightLegDTO);
-
-
-        FlightLeg updatedFlightLeg = flightLegService.getFlightLegByFlightNumber("FL123");
-
-
-        assertNotNull(updatedFlightLeg, "Updated FlightLeg not found");
-        assertEquals("New Airport X", updatedFlightLeg.getArrivalAirport(), "Arrival airport not updated");
-        assertEquals("New Airport Y", updatedFlightLeg.getDepartureAirport(), "Departure airport not updated");
-        assertEquals("New Gate X", updatedFlightLeg.getArrivalGate(), "Arrival gate not updated");
-        assertEquals("New Gate Y", updatedFlightLeg.getDepartureGate(), "Departure gate not updated");
-    }
-
-
-
-}*/
 /*package com.avsos;
 import com.avsos.dto.FlightLegDTO;
 import com.avsos.entity.AirCraft;
@@ -363,7 +253,7 @@ public class FlightLegTest{
 
 
 
-/*package com.avsos;
+package com.avsos;
 import com.avsos.dto.FlightLegDTO;
 import com.avsos.entity.AirCraft;
 import com.avsos.entity.FlightCrew;
@@ -389,27 +279,20 @@ import static org.mockito.Mockito.*;
 
 @QuarkusTest
 public class FlightLegTest {
-
     @InjectMocks
     private FlightLegService flightLegService;
-
     @Mock
     private FlightRepository flightRepository;
-
     @Mock
     private FlightLegProducer flightLegProducer;
-
     @Mock
     private FlightCrewRepository flightCrewRepository;
-
     @Mock
     private AirCraftRepository airCraftRepository;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
     }
-
     @Test
     public void testCreateFlightLeg() {
         FlightLegDTO flightLegDTO = new FlightLegDTO();
@@ -420,20 +303,13 @@ public class FlightLegTest {
         flightLegDTO.setArrivalGate("GateB");
         flightLegDTO.setDepartureDate(new Date());
         flightLegDTO.setCrewIds(Arrays.asList(1L, 2L, 3L));
-        flightLegDTO.setAircraftIds(Arrays.asList(3L, 4L, 5L));
-
-
+        flightLegDTO.setAircraftId(4L);
         when(flightRepository.isPersistent(any())).thenReturn(true);
-
         boolean result = flightLegService.createFlightLeg(flightLegDTO);
-
         assertTrue(result);
         verify(flightLegProducer).sendFlightLegToKafka(flightLegDTO);
         verify(flightRepository).persist(any(FlightLeg.class));
-
-
     }
-
 
     @Test
     public void testHelper() {
@@ -445,8 +321,7 @@ public class FlightLegTest {
         flightLegDTO.setArrivalGate("GateB");
         flightLegDTO.setDepartureDate(new Date());
         flightLegDTO.setCrewIds(Arrays.asList(1L, 2L, 3L));
-        flightLegDTO.setAircraftIds(Arrays.asList(3L, 4L, 5L));
-
+        flightLegDTO.setAircraftId(4L);
 
         when(flightRepository.isPersistent(any(FlightLeg.class))).thenReturn(true);
         when(flightCrewRepository.findById(anyLong())).thenReturn(new FlightCrew());
@@ -455,7 +330,6 @@ public class FlightLegTest {
         boolean result = flightLegService.helper(flightLegDTO);
 
         assertTrue(result);
-
 
         verify(flightRepository).persist(any(FlightLeg.class));
         verify(flightRepository, times(1)).persist(any(FlightLeg.class));
@@ -474,49 +348,45 @@ public class FlightLegTest {
         assertEquals(3, flightCrews.size());
     }
 
-
     @Test
-    public void testFindAirCrafts() {
-        List<Long> aircraftIds = Arrays.asList(4L, 5L, 6L);
-        when(airCraftRepository.findById(4L)).thenReturn(new AirCraft());
-        when(airCraftRepository.findById(5L)).thenReturn(new AirCraft());
-        when(airCraftRepository.findById(6L)).thenReturn(new AirCraft());
-
-        List<AirCraft> airCrafts = flightLegService.findAirCrafts(aircraftIds);
-
-        assertEquals(3, airCrafts.size());
+    public void testFindAirCraft() {
+        Long aircraftId = 4L;
+        AirCraft expectedAircraft = new AirCraft();
+        when(airCraftRepository.findById(aircraftId)).thenReturn(expectedAircraft);
+        AirCraft result = flightLegService.findAirCraft(aircraftId);
+        assertNotNull(result);
+        assertSame(expectedAircraft, result);
     }
 
 
     @Test
     public void testGetAllFlightLeg() {
         List<FlightLeg> flightLegs = Arrays.asList(new FlightLeg(), new FlightLeg());
-
         PanacheQuery<FlightLeg> panacheQueryMock = Mockito.mock(PanacheQuery.class);
         when(flightRepository.findAll()).thenReturn(panacheQueryMock);
         when(panacheQueryMock.list()).thenReturn(flightLegs);
-
         List<FlightLeg> result = flightLegService.getAllFlightLeg();
-
         assertEquals(2, result.size());
-
         verify(flightRepository).findAll();
     }
 
     @Test
     public void testGetFlightLegByFlightLegId() {
-        //String flightNumber = "FL123";
         String flightLegId ="3";
         FlightLeg flightLeg = new FlightLeg(flightLegId,"FL123", "Airport1", "Airport2", "Gate1", "Gate2", new Date());
-
-
         when(flightRepository.findByFlightLegId(flightLegId)).thenReturn(Optional.of(flightLeg));
-
         FlightLeg result = flightLegService.getFlightLegByFlightLegID(flightLegId);
+        assertEquals(flightLegId, result.getFlightLegId());
+        assertEquals("FL123", result.getFlightNumber());
 
-
-        assertNotNull(result);
-        assertEquals(flightLegId, result.getFlightNumber());
     }
 
-}*/
+}
+
+
+
+
+
+
+
+//assertNotNull(result);
